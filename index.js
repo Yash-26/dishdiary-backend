@@ -34,7 +34,7 @@ app.use('/api/users',userRoutes);
 
 // Health check
 app.get('/healthz',(req,res)=>{
-    console.log("DishDiary Backend is Working");
+    res.status(200).send("DishDiary Backend is Working");
 })
 
 // Connect to MongoDB
