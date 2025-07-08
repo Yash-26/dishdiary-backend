@@ -32,8 +32,10 @@ app.use('/uploads', (req, res, next) => {
 app.use('/api/recipes',recipeRoutes);
 app.use('/api/users',userRoutes);
 
-
-
+// Health check
+app.get('/healthz',(req,res)=>{
+    console.log("DishDiary Backend is Working");
+})
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
@@ -47,8 +49,6 @@ mongoose.connect(process.env.MONGO_URI)
 
 .catch((err)=>console.log("Connection error:",err))
 
-app.get('/',(req,res)=>{
-    console.log("DishDiary Backend is Working");
-})
+
 
 
