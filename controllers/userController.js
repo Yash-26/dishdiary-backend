@@ -78,7 +78,7 @@ export const updateUser = async(req,res) => {
             if(req.body.gender) user.gender = req.body.gender;
     
             if(req.file){
-                user.profileImg = `${req.file.filename}`
+                user.profileImg = req.file.filename
             }
     
     
