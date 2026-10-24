@@ -1,8 +1,6 @@
 import express from 'express';
-import multer from 'multer';
-import Recipe from '../models/Recipe.js';
-import path from 'path';
-import { fileURLToPath } from "url";
+import { upload } from '../config/upload.js';
+import { requireAuth } from '../middleware/auth.js';
 import {
     getAllRecipes,
     getRecipeById,
@@ -14,22 +12,8 @@ import {
 
 const router = express.Router();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Storage Multer
-const storage = multer.diskStorage({
-    destination: function(req,file,cb){
-        cb(null,path.join(__dirname, '../public/uploads'));
-    },
-    filename: function(req,file,cb){
-        cb(null, Date.now() + '-' + file.originalname)
-    }
-});
-
-const upload = multer({storage:storage})
-
-// Routes
+// All recipe routes belong to the logged in user
+router.use(requireAuth);
 
 router.get('/',getAllRecipes);
 router.get('/:id',getRecipeById);

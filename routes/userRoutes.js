@@ -1,32 +1,16 @@
 import express from 'express';
-import multer from 'multer';
+import { upload } from '../config/upload.js';
+import { requireAuth } from '../middleware/auth.js';
 import {
   checkUserExistence,
   registerUser,
   loginUser,
   updateUser
 } from '../controllers/userController.js';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 const router = express.Router();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Storage Multer
-const storage = multer.diskStorage({
-    destination: function(req,file,cb){
-        cb(null,path.join(__dirname, '../public/uploads'));
-    },
-    filename: function(req,file,cb){
-        cb(null, Date.now() + '-' + file.originalname)
-    }
-});
-
-const upload = multer({storage:storage});
-
-// Routes
+router.use(requireAuth);
 
 router.get('/check', checkUserExistence);
 router.post('/register',registerUser);
